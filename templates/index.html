@@ -7,5 +7,29 @@
     <title>Job Records</title>
 </head>
 <body>
+    <form action="/add_record" method="post">
+        <label for="">Job Title</label>
+        <input type="text" name="job_title">
+        <br>
+        <label for="">Company Name</label>
+        <input type="text" name="company">
+        <br>
+        <label for="">Job URL</label>
+        <input type="url" name="job_url">
+        <br>
+        <label for="">Score (of 5)</label>
+        <input type="number" name="score">
+        <br>
+        <label for="">Salary</label>
+        <input type="number" name="salary">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <ul>
+        {% for job in job_list %}
+        <li>{{ job['company'] }}, {{ job['job_title'] }}, {{ job['salary'] }},
+            {{ job['score'] }}, {{ job['job_url'] }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
