@@ -27,8 +27,10 @@
     </form>
     <ul>
         {% for job in job_list %}
-        <li>{{ job['company'] }}, {{ job['job_title'] }}, {{ job['salary'] }},
-            {{ job['score'] }}, {{ job['job_url'] }}</li>
+        <li "data-id={{ job['id'] }}">
+            {{ job['company'] }}, {{ job['job_title'] }}, {{ job['salary'] }},
+            {{ job['score'] }}, {{ job['job_url'] }}
+        </li>
         {% endfor %}
     </ul>
 </body>
