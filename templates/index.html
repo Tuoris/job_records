@@ -30,8 +30,10 @@
         <li "data-id={{ job['id'] }}">
             {{ job['company'] }}, {{ job['job_title'] }}, {{ job['salary'] }},
             {{ job['score'] }}, {{ job['job_url'] }}
+            <button onclick="delete_record({{ job['id'] }})">del</button>
         </li>
         {% endfor %}
     </ul>
+    <script src="{{ url_for('static', filename='./js/main.js') }}"></script>
 </body>
 </html>

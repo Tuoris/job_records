@@ -40,6 +40,14 @@ def add_record():
     return redirect(url_for('index'))
 
 
+@app.route('/delete_record', methods=['POST'])
+def delete_record():
+    form = request.form
+    record_id = form['id']
+    delete_db_record(record_id)
+    return ''
+
+
 def save_record(record):
     db = get_db()
     db.execute(
@@ -60,6 +68,16 @@ def get_records():
     db.close()
     records = [dict(r) for r in records]
     return records
+
+
+def delete_db_record(record_id):
+    db = get_db()
+    db.execute(
+        'delete from job_records where id==(?)',
+        [record_id]
+    )
+    db.commit()
+    db.close()
 
 
 @app.teardown_appcontext
