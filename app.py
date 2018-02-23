@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from flask import Flask, jsonify, render_template, request, redirect, url_for, g
+from .validation import validate_form, validate_id
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -21,21 +22,11 @@ def index():
 
 @app.route('/add_record', methods=['POST'])
 def add_record():
-    validated_job = {}
     form = request.form
+    valid_form = validate_form(form)
 
-    validated_job['job_title'] = form.get('job_title')
-    validated_job['company'] = form.get('company')
-    validated_job['job_url'] = form.get('job_url')
-
-    score = form.get('score')
-    salary = form.get('salary')
-
-    validated_job['score'] = validate_score(score)
-    validated_job['salary'] = validate_salary(salary)
-
-    if all([v is not None for v in validated_job.values()]):
-        save_record(validated_job)
+    if valid_form:
+        save_record(valid_form)
 
     return redirect(url_for('index'))
 
@@ -65,23 +56,13 @@ def fetch_record():
 
 @app.route('/edit_record', methods=['POST'])
 def edit_record():
-    validated_job = {}
     form = request.form
+    valid_id = validate_id(form.get('id'))
+    valid_form = validate_form(form)
+    valid_form['record_id'] = valid_id
 
-    validated_job['job_title'] = form.get('job_title')
-    validated_job['company'] = form.get('company')
-    validated_job['job_url'] = form.get('job_url')
-
-    score = form.get('score')
-    salary = form.get('salary')
-    record_id = form.get('id')
-
-    validated_job['score'] = validate_score(score)
-    validated_job['salary'] = validate_salary(salary)
-    validated_job['record_id'] = validate_id(record_id)
-
-    if all([v is not None for v in validated_job.values()]):
-        update_record(validated_job)
+    if valid_form and valid_id:
+        update_record(valid_form)
 
     return redirect(url_for('index'))
 
@@ -150,30 +131,6 @@ def close_connection(exception):
     db = getattr(g, 'sqlite_db', None)
     if db is not None:
         db.close()
-
-
-def validate_score(score):
-    try:
-        score = int(score)
-    except ValueError:
-        score = None
-    return score
-
-
-def validate_salary(salary):
-    try:
-        salary = int(salary)
-    except ValueError:
-        salary = 0
-    return salary
-
-
-def validate_id(record_id):
-    try:
-        record_id = int(record_id)
-    except ValueError:
-        record_id = None
-    return record_id
 
 
 def connect_db():
