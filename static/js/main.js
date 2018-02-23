@@ -1,3 +1,20 @@
+var fetch_record = function(record_id, callback) {
+    var xhr = new XMLHttpRequest();
+    var query = 'id=' + encodeURIComponent(record_id);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState==4 && xhr.status==200) {
+            return callback(JSON.parse(xhr.responseText));
+        } else {
+            return callback({});
+        }
+    }
+
+    xhr.open("GET", '/get_record?' + query, true);
+    xhr.send(null);
+
+};
+
 var delete_record = function(record_id) {
     var xhr = new XMLHttpRequest();
     var body = 'id=' + encodeURIComponent(record_id);

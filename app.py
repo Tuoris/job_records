@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, g
+from flask import Flask, jsonify, render_template, request, redirect, url_for, g
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -48,6 +48,21 @@ def delete_record():
     return ''
 
 
+@app.route('/get_record', methods=['GET'])
+def fetch_record():
+    record_id = request.args.get('id')
+    try:
+        record_id = int(record_id)
+    except ValueError:
+        record_id = None
+
+    if not record_id:
+        return jsonify({})
+
+    record = get_record(record_id)
+    return jsonify(record)
+
+
 def save_record(record):
     db = get_db()
     db.execute(
@@ -68,6 +83,21 @@ def get_records():
     db.close()
     records = [dict(r) for r in records]
     return records
+
+
+def get_record(record_id):
+    db = get_db()
+    cur = db.execute(
+        'select * from job_records where id==(?)',
+        [record_id]
+    )
+    records = cur.fetchall()
+    db.close()
+    if records:
+        record = dict(records[0])
+    else:
+        record = {}
+    return record
 
 
 def delete_db_record(record_id):
