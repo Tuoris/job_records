@@ -63,12 +63,47 @@ def fetch_record():
     return jsonify(record)
 
 
+@app.route('/edit_record', methods=['POST'])
+def edit_record():
+    validated_job = {}
+    form = request.form
+
+    validated_job['job_title'] = form.get('job_title')
+    validated_job['company'] = form.get('company')
+    validated_job['job_url'] = form.get('job_url')
+
+    score = form.get('score')
+    salary = form.get('salary')
+    record_id = form.get('id')
+
+    validated_job['score'] = validate_score(score)
+    validated_job['salary'] = validate_salary(salary)
+    validated_job['record_id'] = validate_id(record_id)
+
+    if all(validated_job.values()):
+        update_record(validated_job)
+
+    return redirect(url_for('index'))
+
+
 def save_record(record):
     db = get_db()
     db.execute(
         'insert into job_records (job_title, company, job_url, score, salary) values (?, ?, ?, ?, ?)',
         [record['job_title'], record['company'],
             record['job_url'], record['score'], record['salary']]
+    )
+    db.commit()
+    db.close()
+
+
+def update_record(record):
+    db = get_db()
+    db.execute(
+        'update job_records set job_title = (?), company = (?), '
+        'job_url = (?), score = (?), salary = (?) where id==(?)',
+        [record['job_title'], record['company'],
+            record['job_url'], record['score'], record['salary'], record['record_id']]
     )
     db.commit()
     db.close()
@@ -131,6 +166,14 @@ def validate_salary(salary):
     except ValueError:
         salary = None
     return salary
+
+
+def validate_id(record_id):
+    try:
+        record_id = int(record_id)
+    except ValueError:
+        record_id = None
+    return record_id
 
 
 def connect_db():

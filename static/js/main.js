@@ -21,6 +21,8 @@ var edit_record = function(record_id) {
     edit_form.classList.remove('hidden');
     add_form.classList.add('hidden');
 
+    edit_form.elements['id'].value = parseInt(record_id);
+
     fetch_record(
         record_id,
         function (record) {
