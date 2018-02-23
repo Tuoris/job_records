@@ -34,7 +34,7 @@ def add_record():
     validated_job['score'] = validate_score(score)
     validated_job['salary'] = validate_salary(salary)
 
-    if all(validated_job.values()):
+    if all([v is not None for v in validated_job.values()]):
         save_record(validated_job)
 
     return redirect(url_for('index'))
@@ -80,7 +80,7 @@ def edit_record():
     validated_job['salary'] = validate_salary(salary)
     validated_job['record_id'] = validate_id(record_id)
 
-    if all(validated_job.values()):
+    if all([v is not None for v in validated_job.values()]):
         update_record(validated_job)
 
     return redirect(url_for('index'))
@@ -164,7 +164,7 @@ def validate_salary(salary):
     try:
         salary = int(salary)
     except ValueError:
-        salary = None
+        salary = 0
     return salary
 
 
