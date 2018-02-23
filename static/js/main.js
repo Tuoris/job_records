@@ -15,6 +15,22 @@ var fetch_record = function(record_id, callback) {
 
 };
 
+var edit_record = function(record_id) {
+    var edit_form = document.getElementsByClassName('edit_record')[0];
+    var add_form = document.getElementsByClassName('add_record')[0];
+    edit_form.classList.remove('hidden');
+    add_form.classList.add('hidden');
+
+    fetch_record(
+        record_id,
+        function (record) {
+            fill_form(edit_form, record);
+        }
+    );
+
+
+};
+
 var delete_record = function(record_id) {
     var xhr = new XMLHttpRequest();
     var body = 'id=' + encodeURIComponent(record_id);
@@ -30,3 +46,26 @@ var delete_record = function(record_id) {
         }
     }
 };
+
+var isEmpty = function (obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+    return JSON.stringify(obj) === JSON.stringify({});
+}
+
+var fill_form = function(form, data) {
+
+    if (!data || isEmpty(data)) {
+        return;
+    }
+
+    var inputs = form.elements;
+    for (var i = 0; i < inputs.length; i++) {
+        var property = inputs[i].name;
+        if (data.hasOwnProperty(property)) {
+            inputs[i].value = data[property];
+        }
+    }
+}

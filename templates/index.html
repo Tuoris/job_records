@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Job Records</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <form action="/add_record" method="post">
+    <form class="add_record" action="/add_record" method="post">
         <label for="">Job Title</label>
         <input type="text" name="job_title">
         <br>
@@ -50,6 +51,7 @@
             {{ job['company'] }}, {{ job['job_title'] }}, {{ job['salary'] }},
             {{ job['score'] }}, {{ job['job_url'] }}
             <button onclick="delete_record({{ job['id'] }})">del</button>
+            <button onclick="edit_record({{ job['id'] }})">edit</button>
         </li>
         {% endfor %}
     </ul>
