@@ -69,3 +69,10 @@ var fill_form = function(form, data) {
         }
     }
 }
+
+var show_add_form = function () {
+    var edit_form = document.getElementsByClassName('edit_record')[0];
+    var add_form = document.getElementsByClassName('add_record')[0];
+    add_form.classList.remove('hidden');
+    edit_form.classList.add('hidden');
+}
