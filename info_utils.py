@@ -47,3 +47,27 @@ def m_rabota_info(url):
             info['company'] = company_block.text
 
     return info
+
+
+def work_ua_info(url):
+    content = get_content(url)
+    info = {}
+    if not content:
+        return info
+
+    soup = BeautifulSoup(content, 'html.parser')
+
+    title_block = soup.find(id='h1-name')
+    if title_block:
+        info['job_title'] = title_block.text
+
+    salary_block = soup.find('h3')
+    if salary_block:
+        salary = salary_block.text.split()[0]
+        info['salary'] = validate_salary(salary)
+
+    company_block = soup.find('dd').find('a')
+    if company_block:
+        info['company'] = company_block.text
+
+    return info
