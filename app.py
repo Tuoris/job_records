@@ -4,6 +4,7 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, g
 from .validation import validate_form, validate_id
 from .storing import get_record, get_all_records, save_record, update_record, delete_record
 from .storing import init_db
+from .info_utils import m_rabota_info
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -72,15 +73,18 @@ def handle_edit_record():
 @app.route('/get_info')
 def handle_get_info():
     job_url = request.args.get('url')
-    return jsonify(
-        dict(
+    if 'm.rabota.ua' in job_url:
+        info = m_rabota_info(job_url)
+    else:
+        info = dict(
             job_title='Job title',
             company= job_url[11:20].capitalize() + ' Inc.',
             job_url=job_url,
             score=random.randint(1,5),
             salary=random.choice([1000, 10000, 100000]),
         )
-    )
+
+    return jsonify(info)
 
 @app.cli.command('initdb')
 def initdb_command():
