@@ -24,7 +24,7 @@ def update_record(record, app):
     db.close()
 
 
-def get_records(app):
+def get_all_records(app):
     db = get_db(app)
     cur = db.execute(
         'select * from job_records'

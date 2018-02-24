@@ -1,7 +1,7 @@
 import os
 from flask import Flask, jsonify, render_template, request, redirect, url_for, g
 from .validation import validate_form, validate_id
-from .storing import get_record, get_records, save_record, update_record, delete_record
+from .storing import get_record, get_all_records, save_record, update_record, delete_record
 from .storing import init_db
 
 app = Flask(__name__)
@@ -17,7 +17,7 @@ app.config.update(dict(
 
 @app.route('/')
 def index():
-    records = get_records(app)
+    records = get_all_records(app)
     return render_template('index.html', job_list=records)
 
 
@@ -41,7 +41,7 @@ def handle_delete_record():
 
 
 @app.route('/get_record', methods=['GET'])
-def fetch_record():
+def handle_get_record():
     record_id = request.args.get('id')
     try:
         record_id = int(record_id)
@@ -56,7 +56,7 @@ def fetch_record():
 
 
 @app.route('/edit_record', methods=['POST'])
-def edit_record():
+def handle_edit_record():
     form = request.form
     valid_id = validate_id(form.get('id'))
     valid_form = validate_form(form)
