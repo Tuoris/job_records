@@ -4,7 +4,10 @@ from .validation import validate_salary
 
 
 def get_content(url):
-    response = requests.get(url)
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
+    }
+    response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.text
     return
