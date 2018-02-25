@@ -1,5 +1,4 @@
 import os
-import random
 from flask import Flask, jsonify, render_template, request, redirect, url_for, g
 from .validation import validate_form, validate_id
 from .storing import get_record, get_all_records, save_record, update_record, delete_record
@@ -80,13 +79,7 @@ def handle_get_info():
     elif 'jobs.dou.ua' in job_url:
         info = jobs_dou_info(job_url)
     else:
-        info = dict(
-            job_title='Job title',
-            company= job_url[11:20].capitalize() + ' Inc.',
-            job_url=job_url,
-            score=random.randint(1,5),
-            salary=random.choice([1000, 10000, 100000]),
-        )
+        info = {}
 
     return jsonify(info)
 
