@@ -17,7 +17,7 @@
         <br>
         <label for="">Job URL</label>
         <input type="url" name="job_url" id="add_URL">
-        <button type="button" onclick="get_info_from('#add_URL')">get info</button>
+        <button type="button" class="get_info" onclick="get_info_from('#add_URL')">get info</button>
         <br>
         <label for="">Score (of 5)</label>
         <input type="number" name="score">
@@ -37,7 +37,7 @@
         <br>
         <label for="">Job URL</label>
         <input type="url" name="job_url" class="job_url" id="edit_URL">
-        <button type="button" onclick="get_info_from('#edit_URL')">get info</button>
+        <button type="button" class="get_info" onclick="get_info_from('#edit_URL')">get info</button>
         <br>
         <label for="">Score (of 5)</label>
         <input type="number" name="score">
@@ -52,10 +52,21 @@
     <ul>
         {% for job in job_list %}
         <li "data-id={{ job['id'] }}">
-            {{ job['company'] }}, {{ job['job_title'] }}, {{ job['salary'] }},
-            {{ job['score'] }}, {{ job['job_url'] }}
-            <button onclick="delete_record({{ job['id'] }})">del</button>
-            <button onclick="edit_record({{ job['id'] }})">edit</button>
+            <div class="job_info">
+                <div class="job_title">{{ job['job_title'] }}</div>
+                <div class="company_name">{{ job['company'] }}</div>
+                <div class="salary">$ {{ job['salary'] }}</div>
+                <div class="score">{{ job['score'] }} / 5</div>
+                <a href="{{ job['job_url'] }}">{{ job['job_url'] }}</a>
+            </div>
+            <div class="controls">
+                <button onclick="delete_record({{ job['id'] }})">
+                    <img src="{{ url_for('static', filename='./img/delete.svg') }}" alt="delete">
+                </button>
+                <button onclick="edit_record({{ job['id'] }})">
+                    <img src="{{ url_for('static', filename='./img/edit.svg') }}" alt="edit">
+                </button>
+            </div>
         </li>
         {% endfor %}
     </ul>
