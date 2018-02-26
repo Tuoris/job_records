@@ -51,11 +51,13 @@ var delete_record = function(record_id) {
 
 var get_info_from = function (source) {
 
-    var source_URL = get_source_URL(source);
+    var source_element = get_source_element(source);
+    var source_URL = source_element.value.trim()
     if (!source_URL) {
         return;
     };
 
+    source_element.disabled = true;
     var add_form = document.getElementsByClassName('add_record')[0];
     var edit_form = document.getElementsByClassName('edit_record')[0];
 
@@ -68,11 +70,12 @@ var get_info_from = function (source) {
         source_URL,
         function (record) {
             fill_form(current_form, record);
+            source_element.disabled = false;
         }
     );
 };
 
-var get_source_URL = function(source) {
+var get_source_element = function(source) {
     var source = source.trim();
 
     var source_type = source[0];
@@ -89,7 +92,11 @@ var get_source_URL = function(source) {
         var source_element = undefined;
     }
 
-    return source_element.value;
+    if (!source_element.checkValidity()) {
+        source_element.reportValidity();
+        return;
+    }
+    return source_element
 }
 
 
