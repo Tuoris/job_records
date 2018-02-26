@@ -9,35 +9,37 @@
 </head>
 <body>
     <form class="add_record" action="/add_record" method="post">
-        <label for="">Job Title</label>
+        <h1>Add new job record</h1>
+        <label for="">Job URL</label>
+        <input type="url" name="job_url" id="add_URL" placeholder="https://m.rabota.ua/vacancy/view/xxxxxx">
+        <button type="button" class="get_info" onclick="get_info_from('#add_URL')">get info</button>
+        <br>
+        <label for="">Position</label>
         <input type="text" name="job_title">
         <br>
         <label for="">Company Name</label>
         <input type="text" name="company">
         <br>
-        <label for="">Job URL</label>
-        <input type="url" name="job_url" id="add_URL">
-        <button type="button" class="get_info" onclick="get_info_from('#add_URL')">get info</button>
-        <br>
         <label for="">Score (of 5)</label>
-        <input type="number" name="score">
+        <input type="number" name="score" min=1 max=5 value=1>
         <br>
         <label for="">Salary</label>
-        <input type="number" name="salary">
+        <input type="number" name="salary" value=0>
         <br>
         <input type="submit" value="Add">
         <input type="reset" value="Cancel">
     </form>
     <form class="edit_record hidden" action="/edit_record" method="post">
-        <label for="">Job Title</label>
+        <h1>Edit record</h1>
+        <label for="">Job URL</label>
+        <input type="url" name="job_url" class="job_url" id="edit_URL">
+        <button type="button" class="get_info" onclick="get_info_from('#edit_URL')">get info</button>
+        <br>
+        <label for="">Position</label>
         <input type="text" name="job_title">
         <br>
         <label for="">Company Name</label>
         <input type="text" name="company">
-        <br>
-        <label for="">Job URL</label>
-        <input type="url" name="job_url" class="job_url" id="edit_URL">
-        <button type="button" class="get_info" onclick="get_info_from('#edit_URL')">get info</button>
         <br>
         <label for="">Score (of 5)</label>
         <input type="number" name="score">

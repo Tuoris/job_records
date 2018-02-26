@@ -34,6 +34,14 @@ form {
     justify-content: center;
 }
 
+form h1 {
+    margin: 0;
+    margin-bottom: .4em;
+    width: 100%;
+    font-size: 1.4em;
+    text-align: center;
+}
+
 form input,
 form label {
     padding: .3em;
