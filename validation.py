@@ -22,8 +22,10 @@ def validate_score(score):
     try:
         score = int(score)
     except ValueError:
-        score = None
-    return score
+        return
+    if score in range(1, 5+1):
+        return score
+    return
 
 
 def validate_salary(salary):
