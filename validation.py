@@ -33,6 +33,8 @@ def validate_salary(salary):
         salary = int(salary)
     except ValueError:
         salary = 0
+    if salary < 0:
+        salary = 0
     return salary
 
 
