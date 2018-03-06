@@ -48,7 +48,8 @@ form details {
 }
 
 form input,
-form label {
+form label,
+.star_wrapper {
     padding: .3em;
     margin: .2em 0;
 }
@@ -77,8 +78,42 @@ input[type="reset"] {
     margin-top: .5em;
 }
 
-form input {
+form input,
+.star_wrapper {
     width: 70%;
+}
+
+.star_wrapper {
+    display: flex;
+    padding: 0;
+    justify-content: center;
+}
+
+input.star_input {
+    display: none;
+}
+
+.star_label {
+    width: auto;
+    padding: 0 .2em;
+    margin: 0;
+    margin-top: -.2em;
+}
+
+.star_wrapper input {
+    width: auto;
+}
+
+.star {
+    font-size: 1.4em;
+    color: #807c6b;
+    transition: color .2s ease;
+}
+
+input.star_input:checked + label .star,
+.star:hover,
+.job_info .star {
+    color: #ebbc00;
 }
 
 #add_URL,
@@ -125,6 +160,10 @@ ul li:last-of-type {
 
 .job_info {
     width: 90%;
+}
+
+.job_info .score {
+    margin-bottom: .2em;
 }
 
 .controls {

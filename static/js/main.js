@@ -135,9 +135,17 @@ var fill_form = function(form, data) {
 
     var inputs = form.elements;
     for (var i = 0; i < inputs.length; i++) {
-        var property = inputs[i].name;
+        var input = inputs[i];
+        var property = input.name;
         if (data.hasOwnProperty(property)) {
-            inputs[i].value = data[property];
+            if (input.type === 'radio') {
+                var matched = String(input.value) === String(data[property]);
+                if (matched) {
+                    input.checked = true;
+                }
+            } else {
+                input.value = data[property];
+            }
         }
     }
 }

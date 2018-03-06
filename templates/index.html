@@ -22,7 +22,18 @@
         <input type="text" name="company">
         <br>
         <label for="">Score (of 5)</label>
-        <input type="number" name="score" min=1 max=5 value=1>
+        <div class="star_wrapper">
+            {% for score in range(1, 5+1) %}
+            {% if score == 4 %}
+            <input type="radio" class="star_input" name="score" value="{{ score }}" id="astar_{{ score }}" checked>
+            {% else %}
+            <input type="radio" class="star_input" name="score" value="{{ score }}" id="astar_{{ score }}">
+            {% endif %}
+            <label class="star_label" for="astar_{{ score }}">
+                <span class="star">&starf;</span>
+            </label>
+            {% endfor %}
+        </div>
         <br>
         <label for="">Salary</label>
         <input type="number" name="salary" value=0>
@@ -43,7 +54,14 @@
         <input type="text" name="company">
         <br>
         <label for="">Score (of 5)</label>
-        <input type="number" name="score">
+        <div class="star_wrapper">
+            {% for score in range(1, 5+1) %}
+            <input type="radio" class="star_input" name="score" value="{{ score }}" id="estar_{{ score }}">
+            <label class="star_label" for="estar_{{ score }}">
+                <span class="star">&starf;</span>
+            </label>
+            {% endfor %}
+        </div>
         <br>
         <label for="">Salary</label>
         <input type="number" name="salary">
@@ -58,8 +76,12 @@
             <div class="job_info">
                 <div class="job_title">{{ job['job_title'] }}</div>
                 <div class="company_name">{{ job['company'] }}</div>
+                <div class="score">
+                    {% for score in range(job['score']) %}
+                    <span class="star">&starf;</span>
+                    {% endfor %}
+                </div>
                 <div class="salary">$ {{ job['salary'] }}</div>
-                <div class="score">{{ job['score'] }} / 5</div>
                 <a href="{{ job['job_url'] }}">{{ job['job_url'] }}</a>
             </div>
             <div class="controls">
