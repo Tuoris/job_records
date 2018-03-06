@@ -83,6 +83,7 @@ def handle_get_info():
 
     return jsonify(info)
 
+
 @app.cli.command('initdb')
 def initdb_command():
     init_db(app)
