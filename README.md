@@ -4,6 +4,12 @@
 
 ### Demo available [HERE](https://job-records.herokuapp.com/).
 
+**WARNING**: If you feel that this code smells, it definitely smells)
+
+BACKEND: Flask, psycopg2 (raw SQL).
+
+FRONTEND: HTML, CSS, Javascript (vanilla).
+
 ## Prerequisites
 
 To install dependencies run (preferably in **virtual environment**):
