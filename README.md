@@ -49,3 +49,17 @@ This will start application at http://127.0.0.1:5000/
 
 ## Contact
 * e-mail: tuoris.dev@gmail.com
+
+## FAQ
+
+#### Why are you not using Flask-SQLAlchemy/Jquery/ReactJS/Angular/Vue?
+
+Initial constraints.
+
+#### Why moving to Postgres?
+
+That was the simplest way to add persistent database for heroku.
+
+#### Should I contribute?
+
+Don't waste your time.
