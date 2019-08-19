@@ -1,6 +1,9 @@
+import hashlib
 import os
-from flask import Flask, jsonify, render_template, request, redirect, url_for, g
+
+from flask import Flask, jsonify, render_template, request, redirect, url_for, g, session
 from .validation import validate_form, validate_id
+from .storing import get_user_password
 from .storing import get_record, get_all_records, save_record, update_record, delete_record
 from .storing import init_db
 from .info_utils import m_rabota_info, work_ua_info, jobs_dou_info
@@ -18,8 +21,35 @@ app.config.update(dict(
 
 @app.route('/')
 def index():
-    records = get_all_records(app)
-    return render_template('index.html', job_list=records)
+    user = session.get('user_id')
+    if user:
+        records = get_all_records(app)
+        return render_template('index.html', job_list=records)
+    else:
+        return render_template('login.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    username = request.form.get('username')
+    password = str(request.form.get('password'))
+    if not username or not password:
+        return redirect(url_for('index'))
+
+    user_password = get_user_password(username, app)
+
+    pass_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    if user_password == pass_hash:
+        session['user_id'] = username
+    return redirect(url_for('index'))
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    if session.get('user_id'):
+        session.clear()
+    return redirect(url_for('index'))
 
 
 @app.route('/add_record', methods=['POST'])

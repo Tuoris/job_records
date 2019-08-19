@@ -4,6 +4,18 @@ import psycopg2
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
+def get_user_password(username, app):
+    db = get_db(app)
+    db.execute(
+        'select password from users where username = %s',
+        (username,)
+    )
+    user = db.fetchall()
+    db.close()
+    if user:
+        return user[0][0]
+    return None
+
 
 def save_record(record, app):
     db = get_db(app)
