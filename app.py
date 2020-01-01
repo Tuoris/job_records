@@ -6,7 +6,7 @@ from validation import validate_form, validate_id
 from storing import get_user_password
 from storing import get_record, get_all_records, save_record, update_record, delete_record
 from storing import init_db
-from info_utils import m_rabota_info, work_ua_info, jobs_dou_info
+from info_utils import m_rabota_info, rabota_info, work_ua_info, jobs_dou_info
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -104,6 +104,8 @@ def handle_get_info():
     job_url = request.args.get('url')
     if 'm.rabota.ua' in job_url:
         info = m_rabota_info(job_url)
+    if 'rabota.ua' in job_url:
+        info = rabota_info(job_url)
     elif 'www.work.ua' in job_url:
         info = work_ua_info(job_url)
     elif 'jobs.dou.ua' in job_url:

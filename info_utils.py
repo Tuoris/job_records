@@ -43,6 +43,33 @@ def m_rabota_info(url):
     return info
 
 
+def rabota_info(url):
+    content = get_content(url)
+    info = {}
+    if not content:
+        return info
+
+    soup = BeautifulSoup(content, 'html.parser')
+
+    title_block = soup.select_one('h1')
+    if title_block:
+        info['job_title'] = title_block.text
+
+    company_block = soup.select_one('title')
+    if company_block:
+        company_names = re.findall(r'\-\s(.*)\s\|', company_block.text)
+        if company_names:
+            info['company'] = company_names[0]
+
+    salary_block = soup.select_one('.vacancy-ssr-holder h4')
+    if salary_block:
+        salary, _, currency = salary_block.text.partition(' ')
+        if salary:
+            info['salary'] = validate_salary(salary)
+
+    return info
+
+
 def work_ua_info(url):
     content = get_content(url)
     info = {}
