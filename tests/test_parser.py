@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from tests import TEST_DATA_DIR
-from info_utils import jobs_dou_info, work_ua_info, m_rabota_info
+from info_utils import jobs_dou_info, m_rabota_info, rabota_info, work_ua_info
 
 
 def fake_request_data_with_local_file(url):
@@ -51,6 +51,24 @@ class MRabotaUAParserTest(TestCase):
 
         self.assertEqual(info['job_title'], 'Computer Vision Engineer')
         self.assertEqual(info['company'], 'SEBALE')
+        self.assertNotIn('salary', info)
+
+
+class RabotaUAParserTest(TestCase):
+    @patch('info_utils.get_content', Mock(side_effect=fake_request_data_with_local_file))
+    def test_parses_rabota_ua_with_all_data(self):
+        info = rabota_info('https://rabota.ua/ua/company482203/vacancy7847595')
+
+        self.assertEqual(info['job_title'], 'Middle Frontend Developer (Vue.js, AngularJS)')
+        self.assertEqual(info['company'], 'Навигатор, межрегиональная рекрутинговая компания')
+        self.assertEqual(info['salary'], 70000)
+
+    @patch('info_utils.get_content', Mock(side_effect=fake_request_data_with_local_file))
+    def test_parses_rabota_ua_with_no_salary(self):
+        info = rabota_info('https://rabota.ua/ua/company38230/vacancy7852131')
+
+        self.assertEqual(info['job_title'], 'Rust Developer')
+        self.assertEqual(info['company'], 'Intellias')
         self.assertNotIn('salary', info)
 
 
