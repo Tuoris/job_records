@@ -2,11 +2,11 @@ import hashlib
 import os
 
 from flask import Flask, jsonify, render_template, request, redirect, url_for, g, session
-from .validation import validate_form, validate_id
-from .storing import get_user_password
-from .storing import get_record, get_all_records, save_record, update_record, delete_record
-from .storing import init_db
-from .info_utils import m_rabota_info, work_ua_info, jobs_dou_info
+from validation import validate_form, validate_id
+from storing import get_user_password
+from storing import get_record, get_all_records, save_record, update_record, delete_record
+from storing import init_db
+from info_utils import m_rabota_info, work_ua_info, jobs_dou_info
 
 app = Flask(__name__)
 app.config.from_object(__name__)

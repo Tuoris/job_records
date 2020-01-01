@@ -1,7 +1,7 @@
 import re
 import requests
 from bs4 import BeautifulSoup
-from .validation import validate_salary
+from validation import validate_salary
 
 
 def get_content(url):
