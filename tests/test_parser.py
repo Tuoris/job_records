@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from tests import TEST_DATA_DIR
-from info_utils import work_ua_info, m_rabota_info
+from info_utils import jobs_dou_info, work_ua_info, m_rabota_info
 
 
 def fake_request_data_with_local_file(url):
@@ -51,4 +51,22 @@ class MRabotaUAParserTest(TestCase):
 
         self.assertEqual(info['job_title'], 'Computer Vision Engineer')
         self.assertEqual(info['company'], 'SEBALE')
+        self.assertNotIn('salary', info)
+
+
+class JobsDOUParserTest(TestCase):
+    @patch('info_utils.get_content', Mock(side_effect=fake_request_data_with_local_file))
+    def test_parses_jobs_dou_with_all_data(self):
+        info = jobs_dou_info('https://jobs.dou.ua/companies/wsm-international-llc/vacancies/32422/')
+
+        self.assertEqual(info['job_title'], 'Cloud Products — Python Developer REMOTE')
+        self.assertEqual(info['company'], 'WSM Europa')
+        self.assertEqual(info['salary'], 3500)
+
+    @patch('info_utils.get_content', Mock(side_effect=fake_request_data_with_local_file))
+    def test_parses_jobs_dou_with_no_salary(self):
+        info = jobs_dou_info('https://jobs.dou.ua/companies/luxoft/vacancies/103558/')
+
+        self.assertEqual(info['job_title'], 'Go Developer')
+        self.assertEqual(info['company'], 'Luxoft')
         self.assertNotIn('salary', info)

@@ -83,6 +83,8 @@ def jobs_dou_info(url):
 
     title_block = soup.find(class_='g-h2')
     if title_block:
+        # TODO: Normalize all string data, because job title data from dou.ua
+        # contains non-breaking space in random positions
         info['job_title'] = title_block.text
 
     salary_block = soup.find(class_='salary')
