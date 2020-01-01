@@ -65,12 +65,12 @@ def work_ua_info(url):
     if title_block:
         info['job_title'] = title_block.text
 
-    salary_block = soup.find('h3')
+    salary_block = soup.select_one('b.text-black')
     if salary_block:
-        salary = salary_block.text.split()[0]
+        salary = salary_block.text.replace('\u202f', '').split()[0]
         info['salary'] = validate_salary(salary)
 
-    company_block = soup.find('dd').find('a')
+    company_block = soup.select_one('p.text-indent a[href*="/jobs/"]')
     if company_block:
         info['company'] = company_block.text
 
