@@ -17,7 +17,7 @@ def fake_request_data_with_local_file(url):
     return text_data
 
 
-class ParserTest(TestCase):
+class WorkUAParserTest(TestCase):
     @patch('info_utils.get_content', Mock(side_effect=fake_request_data_with_local_file))
     def test_parses_work_ua_with_all_data(self):
         info = work_ua_info('https://www.work.ua/jobs/3772744/')
@@ -27,4 +27,11 @@ class ParserTest(TestCase):
         self.assertEqual(info['company'], 'Місто Тревел')
         self.assertEqual(info['salary'], 40000)
 
-        self.fail("Hey! You reached the end of the test")
+    @patch('info_utils.get_content', Mock(side_effect=fake_request_data_with_local_file))
+    def test_parses_work_ua_with_no_salary(self):
+        info = work_ua_info('https://www.work.ua/jobs/2646773/')
+
+        self.assertEqual(info['job_title'], 'Middle Python developer')
+        self.assertEqual(info['company'], 'Quintagroup')
+        self.assertNotIn('salary', info)
+
